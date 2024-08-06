@@ -124,9 +124,9 @@ celerybeat.pid
 # Environments
 .env
 .venv
-env/
+.env/
 venv/
-ENV/
+.env/
 env.bak/
 venv.bak/
 
@@ -161,4 +161,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+/reports/
+/data/
+/models/
 **/.DS_Store
+models/model.json
+.dockerignore
+.dvc/cache/
+.dvc/tmp/

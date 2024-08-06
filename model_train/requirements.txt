@@ -5,3 +5,4 @@ xgboost
 numpy
 scikit-learn
 psycopg2-binary
+holiday
