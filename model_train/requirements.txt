@@ -1,0 +1,7 @@
+jupyter
+pandas
+sqlalchemy
+xgboost
+numpy
+scikit-learn
+psycopg2-binary
