@@ -18,7 +18,7 @@ stages:
     outs:
     - path: data/data.csv
       hash: md5
-      md5: 8ce7e3e4ba6fdbe0de62383ced1dd4eb
+      md5: c67f989624866c6414ec24dcaeec316c
       size: 111654220
     - path: data/zones.csv
       hash: md5
@@ -29,7 +29,7 @@ stages:
     deps:
     - path: data/data.csv
       hash: md5
-      md5: 8ce7e3e4ba6fdbe0de62383ced1dd4eb
+      md5: c67f989624866c6414ec24dcaeec316c
       size: 111654220
     - path: data/zones.csv
       hash: md5
@@ -54,23 +54,23 @@ stages:
       size: 11347853
     - path: data/train.csv
       hash: md5
-      md5: 1f984c2e184d6461fc10610992cbff51
-      size: 53219269
+      md5: 5f8216e7bae19c42bade5d99aaa1a269
+      size: 53219297
     - path: data/val.csv
       hash: md5
-      md5: 2239aa31d4ade0cf60750184df9585a1
-      size: 11360921
+      md5: b9669aa20a40dbb4d024355810c183a7
+      size: 11360893
   train_model:
     cmd: python -m scripts.train
     deps:
     - path: data/train.csv
       hash: md5
-      md5: 1f984c2e184d6461fc10610992cbff51
-      size: 53219269
+      md5: 5f8216e7bae19c42bade5d99aaa1a269
+      size: 53219297
     - path: data/val.csv
       hash: md5
-      md5: 2239aa31d4ade0cf60750184df9585a1
-      size: 11360921
+      md5: b9669aa20a40dbb4d024355810c183a7
+      size: 11360893
     - path: model_pipeline/model_trainer.py
       hash: md5
       md5: 15edb67f7de03c93e504687aae04f7db
@@ -86,8 +86,8 @@ stages:
     outs:
     - path: models/xgb.json
       hash: md5
-      md5: 102625bce0c3c0524bd44cdb64de1a92
-      size: 136643
+      md5: 7af034582a3a61b1260d9636f8bf0874
+      size: 136504
   evaluate_model:
     cmd: python -m scripts.evaluate
     deps:
@@ -101,8 +101,8 @@ stages:
       size: 2846
     - path: models/xgb.json
       hash: md5
-      md5: 102625bce0c3c0524bd44cdb64de1a92
-      size: 136643
+      md5: 7af034582a3a61b1260d9636f8bf0874
+      size: 136504
     - path: requirements.txt
       hash: md5
       md5: 281c7b6808ca34421df966670efed4e5
