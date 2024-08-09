@@ -8,5 +8,5 @@ best_params:
   colsample_bytree: 0.692965615617818
   lambda: 1.232048923698776e-06
   alpha: 0.010308929746256367
-len_train_data: 409861
-len_test_data: 87828
+len_train_data: 410949
+len_test_data: 88061
