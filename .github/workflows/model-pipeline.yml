@@ -51,16 +51,20 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    - name: Push changes to new branch
+    - name: Push changes to main and create a new branch
       id: push-branch
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        git checkout main
+        git add dvc.lock dvclive
+        git commit -m "Run DVC Experiments for model pipeline [skip ci]"
+        git push origin main
+        
         BRANCH_NAME=run-exp-$(date +'%Y%m%d-%H%M')
         git checkout -b $BRANCH_NAME
-        git add dvc.lock dvclive
-        git commit -m "Run DVC Experiments for model pipeline"
         git push origin $BRANCH_NAME
+        
         echo "::set-output name=branch_name::$BRANCH_NAME"
 
     - name: Create Pull Request

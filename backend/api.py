@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends
-from typing import List
+import logging
 from backend.model_executor import ModelExecutor
 from backend.feature_extractor import FeatureExtractor
 from backend.api_models import PredictionRequest, PredictionResponse
@@ -38,6 +38,8 @@ async def predict(
     model_executor: ModelExecutor = Depends(get_model_executor),
     feature_extractor: FeatureExtractor = Depends(get_feature_extractor),
 ):
+    logger = logging.getLogger(__name__)
+    logger.info(f"Predicting for trip with id: {request.trip_id}")
     extracted_features = feature_extractor.extract_features(request)
     prediction = model_executor.predict(extracted_features)
     return PredictionResponse(prediction=prediction)
