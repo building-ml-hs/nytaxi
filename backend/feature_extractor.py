@@ -8,7 +8,6 @@ class FeatureExtractor:
     def __init__(
         self, zones_filename: str, data_folder: str, test_filename: str
     ) -> None:
-        self.logger = logging.getLogger(__name__)
         self.zones_filename = zones_filename
         self.folder = data_folder
         self.zones_filepath = os.path.join(data_folder, zones_filename)
@@ -84,7 +83,6 @@ class FeatureExtractor:
         return df
 
     def extract_features(self, request: PredictionRequest) -> pd.DataFrame:
-        self.logger.info("Start feature extraction for inference")
 
         request_datetime = pd.to_datetime(request.request_datetime)
 
@@ -104,5 +102,4 @@ class FeatureExtractor:
         df = self._one_hot_encode(df)
         df = self._reorder_columns(df)
         df = df.astype(float)
-        self.logger.info("Feature extraction for inference completed")
         return df
