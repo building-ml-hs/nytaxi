@@ -22,14 +22,17 @@ def load_first_200_lines(data_filename: str) -> pd.DataFrame:
 
 def create_prediction_requests(df: pd.DataFrame) -> list:
     requests = []
+    count = 0
     for _, row in df.iterrows():
         request = PredictionRequest(
+            trip_id=str(count),
             request_datetime=row["tpep_pickup_datetime"],
             trip_distance=row["trip_distance"],
             PULocationID=row["PULocationID"],
             DOLocationID=row["DOLocationID"],
             Airport=1 if row["Airport_fee"] > 0 else 0,
         )
+        count += 1
         requests.append(request)
     return requests
 
