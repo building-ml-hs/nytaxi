@@ -23,6 +23,6 @@ def log_features_and_prediction(
         "prediction": float(prediction),
         "trip_id": trip_id,
     }
-    result_json_str = json.dumps(result, indent=2)
+    result_json_str = json.dumps(result, separators=(",", ":"))
 
     logger.info(f"prediction_result: {result_json_str}")
