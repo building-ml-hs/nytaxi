@@ -8,6 +8,7 @@ class FeatureExtractor:
     def __init__(
         self, zones_filename: str, data_folder: str, test_filename: str
     ) -> None:
+        self.logger = logging.getLogger(__name__)
         self.zones_filename = zones_filename
         self.folder = data_folder
         self.zones_filepath = os.path.join(data_folder, zones_filename)
@@ -32,6 +33,13 @@ class FeatureExtractor:
         df = pd.merge(
             df, self.df_zone, left_on="PULocationID", right_on="LocationID", how="left"
         )
+
+        unmatched_rows = df[df["LocationID"].isnull()]
+        if not unmatched_rows.empty:
+            self.logger.error(
+                f"{len(unmatched_rows)} pickup location ID not found, example ID from request: {unmatched_rows['PULocationID'].values[0]}"
+            )
+
         df = df.rename(
             columns={
                 "Borough": "pickup_borough",
@@ -44,6 +52,13 @@ class FeatureExtractor:
         df = pd.merge(
             df, self.df_zone, left_on="DOLocationID", right_on="LocationID", how="left"
         )
+
+        unmatched_rows = df[df["LocationID"].isnull()]
+        if not unmatched_rows.empty:
+            self.logger.error(
+                f"{len(unmatched_rows)} dropoff location ID not found, example ID from request: {unmatched_rows['DOLocationID'].values[0]}"
+            )
+
         df = df.rename(
             columns={
                 "Borough": "dropoff_borough",
@@ -73,10 +88,15 @@ class FeatureExtractor:
         # Set the respective column to 1
         if pickup_borough in df.columns:
             df[pickup_borough] = 1
+        else:
+            self.logger.error(f"Column {pickup_borough} not found in the dataframe")
+
         if pickup_service_zone in df.columns:
             df[pickup_service_zone] = 1
+
         if dropoff_borough in df.columns:
             df[dropoff_borough] = 1
+
         if dropoff_service_zone in df.columns:
             df[dropoff_service_zone] = 1
 
@@ -84,7 +104,19 @@ class FeatureExtractor:
 
     def extract_features(self, request: PredictionRequest) -> pd.DataFrame:
 
-        request_datetime = pd.to_datetime(request.request_datetime)
+        expected_format = "%Y-%m-%dT%H/%M/%S%z"
+        try:
+            request_datetime = pd.to_datetime(
+                request.request_datetime, format=expected_format
+            )
+        except ValueError:
+            try:
+                request_datetime = pd.to_datetime(request.request_datetime)
+            except ValueError:
+                self.logger.error(
+                    f"Request datetime {request.request_datetime} does not match the expected format {expected_format} nor the default format"
+                )
+                raise
 
         features = {
             "trip_distance": request.trip_distance,
