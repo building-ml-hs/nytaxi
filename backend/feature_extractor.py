@@ -118,6 +118,11 @@ class FeatureExtractor:
                 )
                 raise
 
+        if request.trip_distance < 0:
+            self.logger.warning(
+                f"Trip distance is negative: {request.trip_distance}, converting to positive"
+            )
+
         features = {
             "trip_distance": abs(request.trip_distance),
             "pickup_hour": request_datetime.hour,
