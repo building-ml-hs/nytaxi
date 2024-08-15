@@ -119,7 +119,7 @@ class FeatureExtractor:
                 raise
 
         features = {
-            "trip_distance": request.trip_distance,
+            "trip_distance": abs(request.trip_distance),
             "pickup_hour": request_datetime.hour,
             "pickup_minute": request_datetime.minute,
             "pickup_dayofweek": request_datetime.dayofweek,
